@@ -249,14 +249,14 @@ class Database
 		}
 
 		$sql =
-			'SELECT date, ' . $sql .= join(', ', $columnNames) .
+			'SELECT date, ' . join(', ', $columnNames) .
 			' FROM (SELECT @row := @row+1 AS rownum, UNIX_TIMESTAMP(datasets.date) AS date, ' . join(', ', $columns) .
 			'  FROM (SELECT @row :=0) r, t_data AS datasets ' .
 			join(' ', $joins) .
 			'  WHERE datasets.date > DATE_SUB("' . $date . '", INTERVAL ' . $period . ' DAY)' .
 			'   AND datasets.date < DATE_ADD("' . $date . '", INTERVAL 1 DAY))ranked' .
 			' WHERE rownum %' . $reduction . ' = 1' .
-			' GROUP BY date, ' . join(', ', $columnNames) . ';';
+			' GROUP BY date, ' . join(', ', $columnNames) . ' ORDER BY date;';
 		$statement->close();
 		// fetch chart data
 		$rows = array();
