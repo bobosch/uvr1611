@@ -205,8 +205,10 @@ class CmiParser
 		foreach($this->datasets as $dataset) {
 			$frameId = $dataset->getFrameId();
 			$name = $dataset->getName();
-			$value = $dataset->getValue($data[$frameId.$name]);
-			$temp[$frameId][$name] = $value; 
+			if($name) {
+				$value = $dataset->getValue($data[$frameId.$name]);
+				$temp[$frameId][$name] = $value; 
+			}
 		}
 		
 		$result = array();
@@ -228,7 +230,11 @@ class CmiParser
 			else {
 				$result["frame$i"]["energy2"] = "NULL";
 			}
-			foreach(array("analog1", "analog2","analog3","analog4","analog5","analog6","analog7","analog8","analog9", "analog10", "analog11", "analog12", "analog13", "analog14", "analog15", "analog16", "digital1", "digital2","digital3","digital4","digital5","digital6","digital7","digital8","digital9", "digital10", "digital11", "digital12", "digital13", "digital14", "digital15", "digital16","speed1","speed2","speed3","speed4","power1","power2", "kWh1", "MWh1", "kWh2", "MWh2") as $key) {
+			foreach(array(
+				"analog1", "analog2", "analog3", "analog4", "analog5", "analog6", "analog7", "analog8", "analog9", "analog10", "analog11", "analog12", "analog13", "analog14", "analog15", "analog16",
+				"digital1", "digital2", "digital3", "digital4", "digital5", "digital6", "digital7", "digital8", "digital9", "digital10", "digital11", "digital12", "digital13", "digital14", "digital15", "digital16",
+				 "speed1", "speed2", "speed3", "speed4", "power1", "power2", "energy1", "energy2"
+				) as $key) {
 				if(array_key_exists($key, $frame)) {
 					$result["frame$i"][$key] = $frame[$key];
 				} else {
