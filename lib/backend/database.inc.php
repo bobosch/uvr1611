@@ -7,8 +7,8 @@
  * @copyright  Copyright (c) Bertram Winter bertram.winter@gmail.com
  * @license    GPLv3 License
  */
+include_once("lib/error.inc.php");
 include_once("lib/config.inc.php");
-error_reporting(0);
 
 class Database
 {
