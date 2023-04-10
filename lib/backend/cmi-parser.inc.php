@@ -120,7 +120,65 @@ class CmiDataset
 					return $value/100;
 			}
 		}
-		
+
+		if ($this->data['device'] == self::UVRX2) {
+			switch ($this->data['unit']) {
+				// All where send with format: 1 and size: 4
+				case  0: // dimensionless
+				case  2: // Global radiation (W/m²)
+				case  3: // Flow rate (l/h)
+				case  4: // Seconds
+				case  5: // Minutes
+				case 12: // Energy (MWh)
+				case 15: // Hours
+				case 16: // Days
+				case 17: // Number of pulses (Imp)
+				case 19: // Volume (l)
+				case 20: // Speed (km/h)
+				case 28: // Volume (m³)
+				case 22: // Flow rate (l/min)
+				case 35: // Flow rate (l/d)
+				case 36: // Speed (m/s)
+				case 37: // Flow rate (m³/min)
+				case 38: // Flow rate (m³/h)
+				case 39: // Flow rate (m³/d)
+				case 60: // Time (min)
+				case 66: // Pressure (Pa)
+				case 67: // CO2 content (ppm)
+				case 69: // Power (W)
+					return $value;
+				case 10: // Power (kW)
+				case 13: // Voltage (V)
+				case 18: // Resistance (kΩ)
+				case 21: // Frequency (Hz)
+				case 23: // Pressure (bar)
+				case 24: // Performance factor
+				case 50: // Euro (€)
+				case 51: // Dollar ($)
+				case 70: // Weight (t)
+					return $value / 100;
+				case 46: // RAS (°C)
+					return (($value & 0x01FF) / 10);
+				case 53: // dimensionless,5
+					return $value / 100000;
+				case  1: // Temperature (°C)
+				case  8: // Percent (%)
+				case 11: // Energy (kWh)
+				case 14: // Current (mA)
+				case 26: // Length (m)
+				case 27: // Length (mm)
+				case 73: // Length (cm)
+				case 52: // Absolute humidity (g/m³)
+				case 54: // Degree (°)
+				case 58: // dimensionless,1
+				case 63: // Current (A)
+				case 65: // Pressure (mbar)
+				case 71: // Weight (kg)
+				case 72: // Weight (g)
+					break; // $value / 10
+			}
+		}
+
 		switch ($this->data["format"]) {
 			case 1:
 				return $value/10;
