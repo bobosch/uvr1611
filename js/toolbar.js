@@ -347,7 +347,7 @@ var dialog = {
 		var $availableAnalogLines = $("#edit_analog ul.availableLines");
 		for(var i in dialog.names) {
 			var item = dialog.names[i];
-			if(item.type.indexOf("analog") == 0 || item.type.indexOf("speed") == 0 || item.type.indexOf("power") == 0) {
+			if(item.type.indexOf("analog") == 0 || item.type.indexOf("speed") == 0 || item.type.indexOf("power") == 0 || item.type.indexOf("energy") == 0) {
 				if(dialog.filter(item.frame, item.type)) {
 					var $item = $("<li class=\"ui-state-default\">"+item.name+"</li>").data(item);
 					$availableAnalogLines.append($item);
