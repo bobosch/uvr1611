@@ -1,8 +1,6 @@
 UVR1611 Data Logger Pro
 ======
 
-[![PayPal spenden](https://img.shields.io/badge/paypal-spenden-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=5M59ZZNRBEWKG "Spenden für dieses Projekt mit Paypal") [![Amazon Wunschliste](https://img.shields.io/badge/amazon-wunschliste-blue.svg)](https://www.amazon.de/registry/wishlist/1GOPK9GBCPNI0 "Bertram's Wunschliste")
-
 Der *UVR1611 Datalogger Pro* ist ein webbasierender Datenlogger für die Universalregelungen UVR1611 und UVR16x2. Die Daten werden mit Hilfe des BL-NET oder CMI über den CAN oder DL abgerufen.
 
 Die Features sind:
@@ -19,14 +17,6 @@ Die Features sind:
 * Öffentliche und private Diagramme
 * Monatliche Trendwerte
 * Aktuelles Wetter
-
-
-Downloads
-------
-
-* [Stable (v2.10)](https://github.com/berwinter/uvr1611/archive/v210.zip)
-* [Stable (v0.96)](https://github.com/berwinter/uvr1611/archive/v96.zip)
-* [Development](https://github.com/berwinter/uvr1611/archive/master.zip)
 
 Vorteile der Anwendung
 ------
@@ -165,7 +155,62 @@ Screenshots
 
 ![Wetter](./doc/weather.png)
 
-Kontakt
+Issues
 ------
-Bertram Winter
-bertram.winter@gmail.com
+
+First check whether the SQL views and procedures (at the end of [structure.sql](./sql/structure.sql)) where imported correctly and working fine.
+
+If you get the error message "Error Expression #1 of SELECT list is not in GROUP BY clause and contains nonaggregated column 'subtab.id' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by", you have to disable this setting: `SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));`
+
+Development
+------
+
+CAN X2 ID | Name       | Resolution | Unit
+--------: | ---------- | ---------: | -----
+ 0 | dimensionless     |          1 |
+ 1 | Temperature       |        0,1 | °C
+ 2 | Global radiation  |          1 | W/m²
+ 3 | Flow rate         |          1 | l/h
+ 4 | Seconds           |          1 | s
+ 5 | Minutes           |          1 | m
+ 8 | Percent           |        0,1 | %
+10 | Power             |       0,01 | kW
+11 | Energy            |        0,1 | kWh
+12 | Energy            |          1 | MWh
+13 | Voltage           |       0,01 | V
+14 | Current           |        0,1 | mA
+15 | Hours             |          1 | h
+16 | Days              |          1 | d
+17 | Number of pulses  |          1 | Imp
+18 | Resistance        |       0,01 | kΩ
+19 | Volume            |          1 | l
+20 | Speed             |          1 | km/h
+21 | Frequency         |       0,01 | Hz
+22 | Flow rate         |          1 | l/min
+23 | Pressure          |       0,01 | bar
+24 | Performance factor|       0,01 |
+26 | Length            |        0,1 | m
+27 | Length            |        0,1 | mm
+28 | Volume            |          1 | m³
+35 | Flow rate         |          1 | l/d
+36 | Speed             |          1 | m/s
+37 | Flow rate         |          1 | m³/min
+38 | Flow rate         |          1 | m³/h
+39 | Flow rate         |          1 | m³/d
+46 | RAS               |        0,1 | °C
+50 | Euro              |       0,01 | €
+51 | Dollar            |       0,01 | $
+52 | Absolute humidity |        0,1 | g/m³
+53 | dimensionless,5   |    0,00001 |
+54 | Degree            |        0,1 | °
+58 | dimensionless,1   |        0,1 |
+60 | Time              |          1 | min
+63 | Current           |        0,1 | A
+65 | Pressure          |        0,1 | mbar
+66 | Pressure          |          1 | Pa
+67 | CO2 content       |          1 | ppm
+69 | Power             |          1 | W
+70 | Weight            |       0,01 | t
+71 | Weight            |        0,1 | kg
+72 | Weight            |        0,1 | g
+73 | Length            |        0,1 | cm
