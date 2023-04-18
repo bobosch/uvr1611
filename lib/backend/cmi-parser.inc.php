@@ -8,6 +8,7 @@
  * @license    GPLv3 License
  */
 include_once("lib/error.inc.php");
+include_once("lib/config.inc.php");
 
 class CmiDataset
 {
@@ -33,13 +34,15 @@ class CmiDataset
 				 0 => "analog1",   1 => "analog2",   2 => "analog3",   3 => "analog4",
 				 4 => "analog5",   5 => "analog6",   6 => "analog7",   7 => "analog8",
 				 8 => "analog9",   9 => "analog10", 10 => "analog11", 11 => "analog12",
-				12 => "analog13", 13 => "analog14", 14 => "analog15", 15 => "analog16"
+				12 => "analog13", 13 => "analog14", 14 => "analog15", 15 => "analog16",
+				16 => 'power1',   17 => 'energy1',  18 => 'power2',   19 => 'energy2'
 			),
 			1 => array(
 				 0 => "digital1",   1 => "digital2",   2 => "digital3",   3 => "digital4",
 				 4 => "digital5",   5 => "digital6",   6 => "digital7",   7 => "digital8",
 				 8 => "digital9",   9 => "digital10", 10 => "digital11", 11 => "digital12",
-				12 => "digital13", 13 => "digital14", 14 => "digital15", 15 => "digital16"
+				12 => "digital13", 13 => "digital14", 14 => "digital15", 15 => "digital16",
+				16 => false,       17 => false,       18 => false,       19 => false
 			)
 		),
 		"canbc" =>  array(0 => "analog1",    1 => "analog2",    2 => "analog3",
@@ -68,6 +71,9 @@ class CmiDataset
 		"canbc" =>  array(1 => "°C",    3 => "l/h",      4 => "kW",    5 => "kWh",
 		                  6 => "MWh"));
 
+	private $config;
+	private $uvrx2Count = 16;
+
 	const LONG_SIGN = 0x80000000;
 	const SHORT_SIGN = 0x8000;
 	const LONG_MASK = 0xFFFFFFFF;
@@ -82,9 +88,13 @@ class CmiDataset
 	const CAN_BC = 0x84;
 	const CAN_EZ = 0x85;
 
-	const UVRX2_COUNT = 16;
-
 	public function __construct($string) {
+		$this->config = Config::getInstance();
+
+		if($this->config->uvr1611->x2_energy) {
+			$this->uvrx2Count = 20;
+		}
+
 		$this->data = unpack("Csource/Cframe/Ccanid/Cdevice/C3id/C/Cunit/Cformat/Csize/C7", substr($string, 0, 18));
 		$this->data["desc"] = trim(substr($string, 18));
 	}
@@ -194,7 +204,7 @@ class CmiDataset
 			case self::UVR:
 				return $this->mapping["uvr"][$this->data["id1"]];
 			case self::UVRX2:
-				return $this->mapping["uvrx2"][$this->data["id2"]][$this->data["id1"] % self::UVRX2_COUNT];
+				return $this->mapping["uvrx2"][$this->data["id2"]][$this->data["id1"] % $this->uvrx2Count];
 			case self::ESR21:
 				return $this->mapping["esr21"][$this->data["id1"]];
 			case self::CAN_EZ:
@@ -212,7 +222,7 @@ class CmiDataset
 			case self::ESR21:
 				return "f".$this->data["frame"].":".$this->data["canid"];
 			case self::UVRX2:
-				return "f".(floor($this->data["id1"] / self::UVRX2_COUNT)).":".$this->data["canid"];
+				return "f".(floor($this->data["id1"] / $this->uvrx2Count)).":".$this->data["canid"];
 			case self::CAN_BC:
 				if($this->data["id1"] < 13) {
 					return "f".$this->data["frame"].":".$this->data["canid"].":1";
