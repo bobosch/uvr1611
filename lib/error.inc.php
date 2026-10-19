@@ -6,7 +6,10 @@
  * @license    GPLv3 License
  */
 include_once("lib/config.inc.php");
-if(!Config::getInstance()->app->debug) {
+if(Config::getInstance()->app->debug) {
+	error_reporting(E_ALL);
+	ini_set('display_errors', 'on');
+} else {
 	error_reporting(0);
 }
 

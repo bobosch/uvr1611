@@ -152,6 +152,5 @@ class CmiConnection
 		curl_setopt($process, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
 		$this->data = curl_exec($process);
 		$this->pos = 0;
-		curl_close($process);
 	}
 }

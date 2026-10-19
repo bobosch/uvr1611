@@ -84,7 +84,8 @@ class CmiDataset
 		)
 	);
 
-	private $config;
+	protected $config;
+	protected $data;
 	private $uvrx2Count = 16;
 
 	const LONG_SIGN = 0x80000000;
